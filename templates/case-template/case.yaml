@@ -1,0 +1,17 @@
+id: "case-id"
+title: "Case title"
+slug: "case-slug"
+primary_category: "api-http"
+secondary_categories: []
+level: "junior"
+technologies:
+  - "python"
+failure_modes:
+  - "timeout"
+patterns: []
+audience:
+  - "Python backend developers"
+estimated_time_minutes: 45
+status: "draft"
+created_at: "YYYY-MM-DD"
+updated_at: "YYYY-MM-DD"
