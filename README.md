@@ -14,6 +14,29 @@ Each case is a small, focused backend failure scenario. A case starts with a bro
 
 Cases are meant to be practical, reproducible, and easy to review in pull requests.
 
+
+## Run a Case
+
+The recommended way is Docker. You do not need to install Python dependencies locally.
+
+`CASE` is the case ID from `case.yaml`.
+
+Broken version:
+
+```bash
+make broken CASE=BFL-0001
+```
+
+Expected result: the broken test is expected to fail because it demonstrates the bug.
+
+Fixed version:
+
+```bash
+make fixed CASE=BFL-0001
+```
+
+Expected result: the fixed test should pass.
+
 ## Browse Cases
 
 - [Catalog overview](catalog/README.md)

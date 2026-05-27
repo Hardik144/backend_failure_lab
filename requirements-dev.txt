@@ -1,0 +1,8 @@
+fastapi
+sqlalchemy
+pytest
+pytest-asyncio
+httpx
+pydantic
+pyyaml
+ruff

@@ -1,0 +1,9 @@
+flowchart TD
+    A[User A owns Order #100]
+    B[User B sends GET /orders/100]
+    C[API authenticates User B]
+    D[API loads order by id only]
+    E[API does not check ownership]
+    F[API returns 200 with User A's order]
+
+    A --> B --> C --> D --> E --> F

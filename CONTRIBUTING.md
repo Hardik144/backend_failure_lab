@@ -20,6 +20,21 @@ Backend Failure Lab is built around small, practical backend failure cases.
 - Use tags from [TAGS.md](TAGS.md).
 - Do not add unrelated architecture or infrastructure.
 
+## Running Cases
+
+Each case must include:
+
+- a `case.yaml` file with a unique `id`;
+- `tests/test_broken.py`;
+- `tests/test_fixed.py`.
+
+Run cases through Docker from the repository root:
+
+```bash
+make broken CASE=<case-id>
+make fixed CASE=<case-id>
+```
+
 Before opening a pull request, run:
 
 ```bash

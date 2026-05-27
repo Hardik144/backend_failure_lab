@@ -11,7 +11,6 @@ failure_modes:
 patterns: []
 audience:
   - "Python backend developers"
-estimated_time_minutes: 45
 status: "draft"
 created_at: "YYYY-MM-DD"
 updated_at: "YYYY-MM-DD"

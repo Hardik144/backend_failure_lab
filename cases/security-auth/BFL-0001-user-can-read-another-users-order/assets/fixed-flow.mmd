@@ -1,0 +1,9 @@
+flowchart TD
+    A[User A owns Order #100]
+    B[User B sends GET /orders/100]
+    C[API authenticates User B]
+    D[API loads order by id and current_user_id]
+    E[No matching row for User B]
+    F[API returns 404 Not Found]
+
+    A --> B --> C --> D --> E --> F

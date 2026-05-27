@@ -1,0 +1,33 @@
+id: BFL-0001
+title: User Can Read Another User's Order
+slug: user-can-read-another-users-order
+
+primary_category: security-auth
+
+secondary_categories:
+  - api-http
+
+level: beginner
+
+technologies:
+  - python
+  - fastapi
+  - postgresql
+  - sqlalchemy
+  - pytest
+
+failure_modes:
+  - data-leak
+  - broken-authz
+
+patterns:
+  - ownership-check
+
+audience:
+  - junior-backend
+  - interview-prep
+
+status: draft
+
+created_at: 2026-05-27
+updated_at: 2026-05-27

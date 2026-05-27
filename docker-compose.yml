@@ -1,4 +1,13 @@
 services:
+  lab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: bash
+
   postgres:
     image: postgres:16-alpine
     environment:
