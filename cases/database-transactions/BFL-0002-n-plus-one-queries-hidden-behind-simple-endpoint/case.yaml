@@ -1,0 +1,32 @@
+id: BFL-0002
+title: N+1 Queries Hidden Behind a Simple Endpoint
+slug: n-plus-one-queries-hidden-behind-simple-endpoint
+
+primary_category: database-transactions
+
+secondary_categories:
+  - performance-scaling
+
+level: junior
+
+technologies:
+  - python
+  - fastapi
+  - postgresql
+  - sqlalchemy
+  - pytest
+
+failure_modes:
+  - slow-query
+
+patterns:
+  - eager-loading
+
+audience:
+  - junior-backend
+  - backend-interview-prep
+
+status: draft
+
+created_at: 2026-05-28
+updated_at: 2026-05-28

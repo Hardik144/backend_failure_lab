@@ -1,0 +1,30 @@
+id: BFL-0007
+title: Blocking Code Inside Async Endpoint
+slug: blocking-code-inside-async-endpoint
+
+primary_category: performance-scaling
+
+secondary_categories:
+  - api-http
+
+level: junior
+
+technologies:
+  - python
+  - fastapi
+  - pytest
+
+failure_modes:
+  - blocking-async-code
+  - timeout
+
+patterns: []
+
+audience:
+  - junior-backend
+  - fastapi-developers
+
+status: draft
+
+created_at: 2026-05-28
+updated_at: 2026-05-28

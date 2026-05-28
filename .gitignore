@@ -12,5 +12,7 @@ build/
 *.egg-info/
 
 .DS_Store
+
 # Local case planning
 CASE_BRIEF.local.md
+CASE_TEST_STANDARD.local.md

@@ -6,6 +6,11 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
     command: bash
 
   postgres:

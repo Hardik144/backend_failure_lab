@@ -19,7 +19,7 @@
 - Level: `beginner`
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `data-leak`, `broken-authz`
-- Status: `draft`
+- Status: `released`
 
 ## Проблема
 

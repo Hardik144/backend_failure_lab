@@ -1,0 +1,33 @@
+id: BFL-0008
+title: Offset Pagination Skips or Duplicates Items
+slug: offset-pagination-skips-or-duplicates-items
+
+primary_category: api-http
+
+secondary_categories:
+  - database-transactions
+  - performance-scaling
+
+level: junior
+
+technologies:
+  - python
+  - fastapi
+  - sqlalchemy
+  - pytest
+
+failure_modes:
+  - stale-data
+  - race-condition
+
+patterns:
+  - cursor-pagination
+
+audience:
+  - junior-backend
+  - api-design
+
+status: draft
+
+created_at: 2026-05-28
+updated_at: 2026-05-28

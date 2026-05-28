@@ -19,7 +19,7 @@ This case is about a classic object-level authorization bug: the backend checks 
 - Level: `beginner`
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `data-leak`, `broken-authz`
-- Status: `draft`
+- Status: `released`
 
 ## Problem
 

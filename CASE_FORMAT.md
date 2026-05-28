@@ -2,6 +2,26 @@
 
 Every future case should be small, reproducible, and focused on one backend failure mode.
 
+## Case ID Rules
+
+Each case must have a globally unique ID.
+
+Rules:
+
+- ID format: `BFL-0001`.
+- `BFL` means `Backend Failure Lab`.
+- The ID must not encode the category.
+- Do not use category-prefixed IDs such as `SA-0001`, `PS-0001`, or `DB-0001`.
+- The ID must not change after publication.
+- The folder name should use the format `BFL-0001-short-kebab-case-title`.
+- The primary category is stored in `case.yaml`.
+
+Example:
+
+```text
+cases/security-auth/BFL-0001-user-can-read-another-users-order/
+```
+
 ## Required Sections
 
 ### Title

@@ -1,0 +1,56 @@
+from pathlib import Path
+import sys
+
+import pytest
+from fastapi.testclient import TestClient
+
+CASE_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(CASE_DIR))
+
+from fixed.app import create_app  # noqa: E402
+from fixed.models import Account  # noqa: E402
+from fixed.repository import get_account, get_balance, withdraw  # noqa: E402
+
+
+@pytest.fixture
+def app(tmp_path):
+    database_url = f"sqlite:///{tmp_path / 'fixed.db'}"
+    app = create_app(database_url=database_url)
+    with app.state.SessionLocal() as session:
+        session.add(Account(id=1, balance_cents=10000))
+        session.commit()
+    return app
+
+
+@pytest.fixture
+def client(app) -> TestClient:
+    return TestClient(app)
+
+
+def test_two_overlapping_withdrawals_apply_both_updates(app) -> None:
+    session_a = app.state.SessionLocal()
+    session_b = app.state.SessionLocal()
+    try:
+        stale_a = get_account(session=session_a, account_id=1)
+        stale_b = get_account(session=session_b, account_id=1)
+
+        assert stale_a is not None
+        assert stale_b is not None
+
+        withdraw(session=session_a, account_id=1, amount_cents=3000)
+        withdraw(session=session_b, account_id=1, amount_cents=2000)
+    finally:
+        session_a.close()
+        session_b.close()
+
+    with app.state.SessionLocal() as session:
+        final_balance = get_balance(session=session, account_id=1)
+
+    assert final_balance == 5000
+
+
+def test_withdraw_endpoint_returns_updated_balance(client: TestClient) -> None:
+    response = client.post("/accounts/1/withdraw", json={"amount_cents": 3000})
+
+    assert response.status_code == 200
+    assert response.json() == {"id": 1, "balance_cents": 7000}

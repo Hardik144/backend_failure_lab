@@ -4,16 +4,16 @@ install:
 	python -m pip install -e ".[dev]"
 
 test: check-docker
-	docker compose run --rm lab pytest tests 
+	docker compose run --rm --build lab pytest tests 
 
 lint: check-docker
-	docker compose run --rm lab ruff check .
+	docker compose run --rm --build lab ruff check .
 
 validate-cases: check-docker
-	docker compose run --rm lab python scripts/validate_case_metadata.py
+	docker compose run --rm --build lab python scripts/validate_case_metadata.py
 
 generate-catalog: check-docker
-	docker compose run --rm lab python scripts/generate_catalog.py
+	docker compose run --rm --build lab python scripts/generate_catalog.py
 
 up:
 	docker compose up -d
@@ -31,13 +31,13 @@ check-case:
 	fi
 
 docker-shell: check-docker
-	docker compose run --rm lab bash
+	docker compose run --rm --build lab bash
 
 docker-test: check-docker
-	docker compose run --rm lab pytest tests
+	docker compose run --rm --build lab pytest tests
 
 broken: check-case check-docker
-	@docker compose run --rm lab sh -c 'python scripts/run_case.py --case $(CASE) --mode broken; status=$$?; if [ $$status -eq 1 ]; then exit 42; else exit $$status; fi'; \
+	@docker compose run --rm --build lab sh -c 'python scripts/run_case.py --case $(CASE) --mode broken; status=$$?; if [ $$status -eq 1 ]; then exit 42; else exit $$status; fi'; \
 	status=$$?; \
 	if [ $$status -eq 42 ]; then \
 		echo ""; \
@@ -48,7 +48,7 @@ broken: check-case check-docker
 	fi
 
 fixed: check-case check-docker
-	docker compose run --rm lab python scripts/run_case.py --case $(CASE) --mode fixed
+	docker compose run --rm --build lab python scripts/run_case.py --case $(CASE) --mode fixed
 
 docker-bfl-0001-broken:
 	$(MAKE) broken CASE=BFL-0001

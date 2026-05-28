@@ -4,13 +4,28 @@ Backend Failure Lab is built around small, practical backend failure cases.
 
 ## Add a New Case
 
-1. Copy `templates/case-template/` into the matching directory under `cases/`.
-2. Rename the copied directory to a clear case slug.
-3. Fill in `case.yaml`.
-4. Add the broken implementation under `broken/`.
-5. Add the fixed implementation under `fixed/`.
-6. Add tests under `tests/`.
-7. Update the catalog files or run `python scripts/generate_catalog.py`.
+1. Choose the next global `BFL` ID.
+2. Choose the primary category.
+3. Create the case folder:
+
+```text
+cases/<primary-category>/BFL-XXXX-short-slug/
+```
+
+4. Fill in `case.yaml`.
+5. Add `README.md`, `README.ru.md`, `broken/`, `fixed/`, `tests/`, and `assets/` when needed.
+6. Add the case to the visible catalog:
+   - root `README.md` -> `Browse by Category`;
+   - root `README.md` -> `Featured Cases`, if the case is important for the current release;
+   - `catalog/` files, if they are currently maintained manually.
+7. Run the case:
+
+```bash
+make broken CASE=BFL-XXXX
+make fixed CASE=BFL-XXXX
+```
+
+Do not invent category-specific IDs such as `SA-0001`, `PS-0001`, or `DB-0001`. Categories belong in `case.yaml`; IDs must stay global and stable.
 
 ## Case Expectations
 
@@ -24,7 +39,7 @@ Backend Failure Lab is built around small, practical backend failure cases.
 
 Each case must include:
 
-- a `case.yaml` file with a unique `id`;
+- a `case.yaml` file with a unique global `BFL-XXXX` ID;
 - `tests/test_broken.py`;
 - `tests/test_fixed.py`.
 

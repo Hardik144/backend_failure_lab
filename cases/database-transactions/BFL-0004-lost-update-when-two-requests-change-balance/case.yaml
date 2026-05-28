@@ -1,0 +1,35 @@
+id: BFL-0004
+title: Lost Update When Two Requests Change Balance
+slug: lost-update-when-two-requests-change-balance
+
+primary_category: database-transactions
+
+secondary_categories:
+  - reliability-failure-recovery
+  - idempotency-consistency
+
+level: middle
+
+technologies:
+  - python
+  - fastapi
+  - postgresql
+  - sqlalchemy
+  - pytest
+
+failure_modes:
+  - lost-update
+  - race-condition
+
+patterns:
+  - transaction-boundary
+  - select-for-update
+
+audience:
+  - middle-backend
+  - backend-interview-prep
+
+status: draft
+
+created_at: 2026-05-28
+updated_at: 2026-05-28

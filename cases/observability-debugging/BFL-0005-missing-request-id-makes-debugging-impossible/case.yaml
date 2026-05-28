@@ -1,0 +1,32 @@
+id: BFL-0005
+title: Missing Request ID Makes Debugging Impossible
+slug: missing-request-id-makes-debugging-impossible
+
+primary_category: observability-debugging
+
+secondary_categories:
+  - api-http
+  - reliability-failure-recovery
+
+level: beginner
+
+technologies:
+  - python
+  - fastapi
+  - pytest
+
+failure_modes:
+  - missing-observability
+
+patterns:
+  - request-id
+  - structured-logging
+
+audience:
+  - junior-backend
+  - production-debugging
+
+status: draft
+
+created_at: 2026-05-28
+updated_at: 2026-05-28
