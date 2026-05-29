@@ -16,3 +16,7 @@ build/
 # Local case planning
 CASE_BRIEF.local.md
 CASE_TEST_STANDARD.local.md
+
+# Local strategy docs and context (never push to GitHub)
+_strategy/
+CLAUDE.md
