@@ -58,7 +58,7 @@ body:
       description: Describe a realistic production-like situation where this bug can happen.
       placeholder: "This can happen when a worker crashes after partially completing a task and the retry runs the operation again."
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: broken_scenario
