@@ -2,6 +2,32 @@
 
 Backend Failure Lab is built around small, practical backend failure cases.
 
+## You Can Contribute Without Writing Code
+
+Backend Failure Lab accepts real backend failure stories, not only code contributions.
+
+You can open a **Failure Case Proposal** issue if you have seen a bug or failure pattern that could become a reproducible case.
+
+A good proposal should include:
+
+- what breaks;
+- where this happens in production;
+- step-by-step broken scenario;
+- expected safe behavior;
+- possible fix or pattern, if known;
+- similar existing cases, if any.
+
+You do not need to implement the case yourself.
+
+## Failure Case Proposal Flow
+
+1. Contributor opens a Failure Case Proposal issue.
+2. Maintainer reviews it.
+3. If it is useful and not a duplicate, maintainer adds `accepted-case`.
+4. If it is too similar to an existing case, maintainer adds `duplicate` or `extension`.
+5. If accepted, it can later become a full case implementation task.
+6. Small tasks can be split into `good first issue` issues.
+
 ## Add a New Case
 
 1. Choose the next global `BFL` ID.

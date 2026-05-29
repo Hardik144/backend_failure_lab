@@ -1,0 +1,115 @@
+name: Failure Case Proposal
+description: Suggest a real backend failure case for Backend Failure Lab
+title: "[Case Proposal]: "
+labels: ["case-proposal", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a backend failure case.
+
+        Use this form if you want to share a real backend problem that can be turned into a reproducible lab case:
+
+        broken code → failing test → diagnosis → fix → production notes
+
+        You do not need to write code to suggest a case.
+
+  - type: input
+    id: short_title
+    attributes:
+      label: Short title
+      description: Give the case a short, clear name.
+      placeholder: "Retry Without Idempotency Creates Duplicate Orders"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: main_category
+    attributes:
+      label: Main category
+      description: Choose the primary category for this failure case.
+      options:
+        - API & HTTP
+        - Database & Transactions
+        - Queues & Background Jobs
+        - Reliability & Failure Recovery
+        - Idempotency & Consistency
+        - Caching & Redis
+        - Security & Auth
+        - Observability & Debugging
+        - Performance & Scaling
+        - Deployment & Operations
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_breaks
+    attributes:
+      label: What breaks?
+      description: Describe the bug or failure in simple terms.
+      placeholder: "A background job is retried and creates the same order twice."
+    validations:
+      required: true
+
+  - type: textarea
+    id: production_context
+    attributes:
+      label: Where does this happen in real projects?
+      description: Describe a realistic production-like situation where this bug can happen.
+      placeholder: "This can happen when a worker crashes after partially completing a task and the retry runs the operation again."
+    validations:
+      required: true
+
+  - type: textarea
+    id: broken_scenario
+    attributes:
+      label: Broken scenario
+      description: Describe the failure step by step.
+      placeholder: |
+        1. User sends a create order request.
+        2. Backend creates the order.
+        3. Worker crashes before marking the task as complete.
+        4. The task is retried.
+        5. A duplicate order is created.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected safe behavior
+      description: What should the system do instead?
+      placeholder: "The same operation should be processed only once."
+    validations:
+      required: true
+
+  - type: textarea
+    id: possible_fix
+    attributes:
+      label: Possible fix or pattern
+      description: If you know the fix, describe it. If not, leave your best guess.
+      placeholder: "Use an idempotency key and store processed commands."
+    validations:
+      required: false
+
+  - type: textarea
+    id: similar_cases
+    attributes:
+      label: Similar existing cases
+      description: Did you check whether this is already covered?
+      placeholder: "Looks similar to BFL-0003, but this one is about external webhooks instead of internal retries."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: contribution_level
+    attributes:
+      label: Would you like to help implement it?
+      options:
+        - I only want to suggest the idea
+        - I can help write the README
+        - I can help write the tests
+        - I can help implement broken/fixed code
+        - I can help review the case after it is implemented
+    validations:
+      required: true

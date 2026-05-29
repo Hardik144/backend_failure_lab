@@ -22,6 +22,19 @@ Example:
 cases/security-auth/BFL-0001-user-can-read-another-users-order/
 ```
 
+## From Proposal to Case
+
+A case can start as a GitHub issue using the **Failure Case Proposal** template.
+
+Before becoming a full case, it should be checked for:
+
+- clear failure mode;
+- realistic production scenario;
+- reproducible broken scenario;
+- difference from existing cases;
+- possible failing test;
+- possible fix or pattern.
+
 ## Required Sections
 
 ### Title

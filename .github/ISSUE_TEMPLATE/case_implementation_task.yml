@@ -1,0 +1,64 @@
+name: Case Implementation Task
+description: Implement an accepted Backend Failure Lab case
+title: "[Case Implementation]: "
+labels: ["case-implementation", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for accepted case ideas that are ready to be implemented.
+
+  - type: input
+    id: case_id
+    attributes:
+      label: Case ID
+      placeholder: "BFL-0002"
+    validations:
+      required: true
+
+  - type: input
+    id: case_title
+    attributes:
+      label: Case title
+      placeholder: "N+1 Queries Hidden Behind a Simple Endpoint"
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation_scope
+    attributes:
+      label: Implementation scope
+      description: What exactly needs to be implemented?
+      placeholder: |
+        - case.yaml
+        - README.md
+        - broken implementation
+        - fixed implementation
+        - tests/test_broken.py
+        - tests/test_fixed.py
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_commands
+    attributes:
+      label: Expected commands
+      description: Commands that should work after implementation.
+      value: |
+        make broken CASE=BFL-XXXX
+        make fixed CASE=BFL-XXXX
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - Broken test demonstrates the bug.
+        - Fixed test passes.
+        - README explains the problem clearly.
+        - case.yaml uses a global BFL ID.
+        - Case is added to the catalog.
+    validations:
+      required: true

@@ -1,0 +1,6 @@
+blank_issues_enabled: true
+contact_links:
+  # TODO: Enable GitHub Discussions in repository settings before relying on this link.
+  - name: General discussion
+    url: https://github.com/mxm-mrz/backend_failure_lab/discussions
+    about: Use discussions for open-ended ideas, questions, or feedback.

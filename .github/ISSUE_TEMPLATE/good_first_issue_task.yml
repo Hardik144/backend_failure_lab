@@ -1,0 +1,51 @@
+name: Good First Issue Task
+description: Create a small beginner-friendly contribution task
+title: "[Good First Issue]: "
+labels: ["good first issue", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for small, clear tasks that are suitable for new contributors.
+
+        A good first issue should be specific and limited in scope.
+
+  - type: input
+    id: task_title
+    attributes:
+      label: Task title
+      placeholder: "Add Mermaid diagram for BFL-0001"
+    validations:
+      required: true
+
+  - type: textarea
+    id: task_goal
+    attributes:
+      label: Goal
+      description: What should be done?
+      placeholder: "Add a simple Mermaid sequence diagram showing the broken authorization flow."
+    validations:
+      required: true
+
+  - type: textarea
+    id: files_to_change
+    attributes:
+      label: Files likely to change
+      description: List the files or folders that the contributor will probably edit.
+      placeholder: |
+        - cases/security-auth/BFL-0001-user-can-read-another-users-order/README.md
+        - cases/security-auth/BFL-0001-user-can-read-another-users-order/assets/
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: How do we know the task is done?
+      placeholder: |
+        - Diagram is added.
+        - README links to the diagram or embeds it.
+        - Existing tests still pass.
+    validations:
+      required: true

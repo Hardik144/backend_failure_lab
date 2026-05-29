@@ -36,6 +36,39 @@ make fixed CASE=BFL-0001
 
 Expected result: the fixed test should pass.
 
+## Suggest a Failure Case
+
+You do not need to write code to contribute.
+
+If you have seen a real backend failure in practice, you can suggest it as a future case:
+
+- auth bugs
+- N+1 queries
+- unsafe retries
+- stale cache
+- race conditions
+- transaction bugs
+- background job failures
+- missing request IDs
+- observability/debugging problems
+
+Open a **Failure Case Proposal** issue and describe the scenario.
+
+A maintainer can later turn it into:
+
+`broken code -> failing test -> diagnosis -> fix -> production notes`
+
+## Ways to Contribute
+
+You can help by:
+
+1. Suggesting a real backend failure case.
+2. Improving an existing case explanation.
+3. Adding tests.
+4. Implementing broken/fixed examples.
+5. Adding diagrams.
+6. Reviewing whether a case feels realistic.
+
 ## Browse by Category
 
 <details>
