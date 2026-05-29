@@ -167,6 +167,36 @@ Expected result: the tests should pass because the fixed implementation uses eag
 - `fixed/` - corrected implementation using eager loading
 - `tests/` - tests that verify response shape and query count
 
+## Diagrams
+
+Broken flow:
+
+```mermaid
+flowchart TD
+    A[Client calls GET /users-with-orders]
+    B[API runs SELECT * FROM users — 1 query]
+    C[Loop over each user]
+    D[API runs SELECT * FROM orders WHERE user_id = ? — 1 query per user]
+    E[Repeat for every user in the list]
+    F[Response is correct but total queries = 1 + N]
+
+    A --> B --> C --> D --> E --> D
+    E --> F
+```
+
+Fixed flow:
+
+```mermaid
+flowchart TD
+    A[Client calls GET /users-with-orders]
+    B[API runs SELECT users with selectinload — 1 query]
+    C[SQLAlchemy runs SELECT orders WHERE user_id IN ... — 1 query]
+    D[All users and orders loaded in 2 queries total]
+    E[Response is correct and query count does not grow with data size]
+
+    A --> B --> C --> D --> E
+```
+
 ## Production Notes
 
 N+1 queries are dangerous because they often stay invisible in development data.

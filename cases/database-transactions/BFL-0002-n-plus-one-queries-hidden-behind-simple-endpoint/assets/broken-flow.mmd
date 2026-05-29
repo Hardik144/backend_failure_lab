@@ -1,0 +1,10 @@
+flowchart TD
+    A[Client calls GET /users-with-orders]
+    B[API runs SELECT * FROM users — 1 query]
+    C[Loop over each user]
+    D[API runs SELECT * FROM orders WHERE user_id = ? — 1 query per user]
+    E[Repeat for every user in the list]
+    F[Response is correct but total queries = 1 + N]
+
+    A --> B --> C --> D --> E --> D
+    E --> F
