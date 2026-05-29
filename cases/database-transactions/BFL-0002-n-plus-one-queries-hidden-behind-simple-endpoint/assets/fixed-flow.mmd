@@ -1,0 +1,8 @@
+flowchart TD
+    A[Client calls GET /users-with-orders]
+    B[API runs SELECT users with selectinload — 1 query]
+    C[SQLAlchemy runs SELECT orders WHERE user_id IN ... — 1 query]
+    D[All users and orders loaded in 2 queries total]
+    E[Response is correct and query count does not grow with data size]
+
+    A --> B --> C --> D --> E
