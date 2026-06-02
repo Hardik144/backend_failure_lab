@@ -1,16 +1,26 @@
-id: "case-id"
-title: "Case title"
-slug: "case-slug"
-primary_category: "api-http"
+id: BFL-XXXX
+title: Case title
+slug: case-slug
+
+primary_category: api-http
+
 secondary_categories: []
-level: "junior"
+
+level: junior
+
 technologies:
-  - "python"
+  - python
+  - fastapi
+
 failure_modes:
-  - "timeout"
+  - timeout
+
 patterns: []
+
 audience:
-  - "Python backend developers"
-status: "draft"
-created_at: "YYYY-MM-DD"
-updated_at: "YYYY-MM-DD"
+  - junior-backend
+
+status: draft
+
+created_at: YYYY-MM-DD
+updated_at: YYYY-MM-DD

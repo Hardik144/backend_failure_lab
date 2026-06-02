@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import yaml
 
@@ -46,6 +46,31 @@ LEVELS = [
     "advanced",
 ]
 
+CATEGORY_DISPLAY: dict[str, str] = {
+    "api-http": "API & HTTP",
+    "database-transactions": "Database & Transactions",
+    "queues-background-jobs": "Queues & Background Jobs",
+    "reliability-failure-recovery": "Reliability & Failure Recovery",
+    "idempotency-consistency": "Idempotency & Consistency",
+    "caching-redis": "Caching & Redis",
+    "security-auth": "Security & Auth",
+    "observability-debugging": "Observability & Debugging",
+    "performance-scaling": "Performance & Scaling",
+    "deployment-operations": "Deployment & Operations",
+}
+
+
+def _display_level(level: str) -> str:
+    return "-".join(word.capitalize() for word in level.split("-"))
+
+
+def _display_status(status: str) -> str:
+    return status.capitalize()
+
+
+def _display_category(category: str) -> str:
+    return CATEGORY_DISPLAY.get(category, category)
+
 
 def read_cases() -> list[dict[str, Any]]:
     cases: list[dict[str, Any]] = []
@@ -58,19 +83,45 @@ def read_cases() -> list[dict[str, Any]]:
     return cases
 
 
-def case_line(case: dict[str, Any]) -> str:
-    title = case.get("title") or case.get("slug") or case.get("id") or "Untitled case"
+def _case_header(n: int, case: dict[str, Any]) -> str:
+    case_id = case.get("id", "")
+    title = case.get("title") or case.get("slug") or case_id or "Untitled case"
     path = case.get("_path", "")
-    return f"- [{title}](../{path}/)"
+    return f"{n}. **{case_id}** — [{title}](../{path})  "
 
 
-def render_grouped(title: str, keys: list[str], grouped: dict[str, list[dict[str, Any]]]) -> str:
+def _case_line_category(n: int, case: dict[str, Any]) -> str:
+    level = _display_level(case.get("level", ""))
+    status = _display_status(case.get("status", ""))
+    return f"{_case_header(n, case)}\n   Level: {level} · Status: {status}"
+
+
+def _case_line_level(n: int, case: dict[str, Any]) -> str:
+    category = _display_category(case.get("primary_category", ""))
+    status = _display_status(case.get("status", ""))
+    return f"{_case_header(n, case)}\n   Category: {category} · Status: {status}"
+
+
+def _case_line_technology(n: int, case: dict[str, Any]) -> str:
+    category = _display_category(case.get("primary_category", ""))
+    level = _display_level(case.get("level", ""))
+    status = _display_status(case.get("status", ""))
+    return f"{_case_header(n, case)}\n   Category: {category} · Level: {level} · Status: {status}"
+
+
+def render_grouped(
+    title: str,
+    keys: list[str],
+    grouped: dict[str, list[dict[str, Any]]],
+    line_fn: Callable[[int, dict[str, Any]], str],
+) -> str:
     lines = [f"# {title}", ""]
     for key in keys:
         lines.extend([f"## {key}", ""])
         items = grouped.get(key, [])
         if items:
-            lines.extend(case_line(item) for item in items)
+            for n, item in enumerate(items, start=1):
+                lines.append(line_fn(n, item))
         else:
             lines.append("No cases yet.")
         lines.append("")
@@ -88,6 +139,9 @@ def main() -> int:
         primary_category = case.get("primary_category")
         if isinstance(primary_category, str):
             by_category[primary_category].append(case)
+        for secondary_category in case.get("secondary_categories", []):
+            if isinstance(secondary_category, str):
+                by_category[secondary_category].append(case)
 
         for technology in case.get("technologies", []):
             if isinstance(technology, str):
@@ -97,16 +151,20 @@ def main() -> int:
         if isinstance(level, str):
             by_level[level].append(case)
 
+    for group in (by_category, by_technology, by_level):
+        for key in group:
+            group[key].sort(key=lambda c: c.get("id", ""))
+
     (CATALOG_DIR / "by-category.md").write_text(
-        render_grouped("Cases by Category", CATEGORIES, by_category),
+        render_grouped("Cases by Category", CATEGORIES, by_category, _case_line_category),
         encoding="utf-8",
     )
     (CATALOG_DIR / "by-technology.md").write_text(
-        render_grouped("Cases by Technology", TECHNOLOGIES, by_technology),
+        render_grouped("Cases by Technology", TECHNOLOGIES, by_technology, _case_line_technology),
         encoding="utf-8",
     )
     (CATALOG_DIR / "by-level.md").write_text(
-        render_grouped("Cases by Level", LEVELS, by_level),
+        render_grouped("Cases by Level", LEVELS, by_level, _case_line_level),
         encoding="utf-8",
     )
 
