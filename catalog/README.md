@@ -12,3 +12,11 @@ Some cases appear in more than one category because they demonstrate a primary f
 
 1. **BFL-0001** — [User Can Read Another User's Order](../cases/security-auth/BFL-0001-user-can-read-another-users-order)  
    Category: Security & Auth · Level: Beginner · Status: Released
+2. **BFL-0002** — [N+1 Queries Hidden Behind a Simple Endpoint](../cases/database-transactions/BFL-0002-n-plus-one-queries-hidden-behind-simple-endpoint)  
+   Category: Database & Transactions · Level: Junior · Status: Released
+3. **BFL-0003** — [Retry Without Idempotency Creates Duplicate Orders](../cases/idempotency-consistency/BFL-0003-retry-without-idempotency-creates-duplicate-orders)  
+   Category: Idempotency & Consistency · Level: Junior-Middle · Status: Released
+4. **BFL-0004** — [Lost Update When Two Requests Change Balance](../cases/database-transactions/BFL-0004-lost-update-when-two-requests-change-balance)  
+   Category: Database & Transactions · Level: Middle · Status: Released
+5. **BFL-0005** — [Missing Request ID Makes Debugging Impossible](../cases/observability-debugging/BFL-0005-missing-request-id-makes-debugging-impossible)  
+   Category: Observability & Debugging · Level: Beginner · Status: Released

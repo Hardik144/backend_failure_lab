@@ -1,0 +1,32 @@
+id: BFL-0011
+title: Timeout Without Cancellation Leaves Work Running
+slug: timeout-without-cancellation-leaves-work-running
+
+primary_category: api-http
+
+secondary_categories:
+  - reliability-failure-recovery
+  - performance-scaling
+
+level: middle-advanced
+
+technologies:
+  - python
+  - fastapi
+  - pytest
+
+failure_modes:
+  - timeout
+  - partial-failure
+
+patterns:
+  - graceful-shutdown
+
+audience:
+  - middle-backend
+  - production-reliability
+
+status: draft
+
+created_at: 2026-06-03
+updated_at: 2026-06-03

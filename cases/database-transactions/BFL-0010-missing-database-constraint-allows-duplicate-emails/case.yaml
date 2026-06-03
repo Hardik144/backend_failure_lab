@@ -1,0 +1,33 @@
+id: BFL-0010
+title: Missing Database Constraint Allows Duplicate Emails
+slug: missing-database-constraint-allows-duplicate-emails
+
+primary_category: database-transactions
+
+secondary_categories:
+  - security-auth
+  - reliability-failure-recovery
+
+level: junior
+
+technologies:
+  - python
+  - fastapi
+  - postgresql
+  - sqlalchemy
+  - pytest
+
+failure_modes:
+  - race-condition
+
+patterns:
+  - transaction-boundary
+
+audience:
+  - junior-backend
+  - backend-interview-prep
+
+status: draft
+
+created_at: 2026-06-03
+updated_at: 2026-06-03

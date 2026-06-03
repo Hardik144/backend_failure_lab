@@ -1,8 +1,8 @@
 from pathlib import Path
 import sys
 
+import httpx
 import pytest
-from fastapi.testclient import TestClient
 
 CASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(CASE_DIR))
@@ -12,7 +12,7 @@ from fixed.models import Order, User  # noqa: E402
 
 
 @pytest.fixture
-def client(tmp_path) -> TestClient:
+def app(tmp_path):
     database_url = f"sqlite:///{tmp_path / 'fixed.db'}"
     app = create_app(database_url=database_url)
 
@@ -26,17 +26,25 @@ def client(tmp_path) -> TestClient:
         )
         session.commit()
 
-    return TestClient(app)
+    return app
 
 
-def test_user_cannot_read_another_users_order(client: TestClient) -> None:
-    response = client.get("/orders/100", headers={"X-User-Id": "2"})
+@pytest.mark.asyncio
+async def test_user_cannot_read_another_users_order(app) -> None:
+    transport = httpx.ASGITransport(app=app)
+
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        response = await client.get("/orders/100", headers={"X-User-Id": "2"})
 
     assert response.status_code == 404
 
 
-def test_user_can_read_own_order(client: TestClient) -> None:
-    response = client.get("/orders/100", headers={"X-User-Id": "1"})
+@pytest.mark.asyncio
+async def test_user_can_read_own_order(app) -> None:
+    transport = httpx.ASGITransport(app=app)
+
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        response = await client.get("/orders/100", headers={"X-User-Id": "1"})
 
     assert response.status_code == 200
     assert response.json() == {
@@ -47,7 +55,11 @@ def test_user_can_read_own_order(client: TestClient) -> None:
     }
 
 
-def test_missing_user_header_returns_401(client: TestClient) -> None:
-    response = client.get("/orders/100")
+@pytest.mark.asyncio
+async def test_missing_user_header_returns_401(app) -> None:
+    transport = httpx.ASGITransport(app=app)
+
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        response = await client.get("/orders/100")
 
     assert response.status_code == 401

@@ -20,7 +20,7 @@
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `lost-update`, `race-condition`
 - Patterns: `transaction-boundary`, `select-for-update`
-- Status: `draft`
+- Status: `released`
 
 ## Проблема
 

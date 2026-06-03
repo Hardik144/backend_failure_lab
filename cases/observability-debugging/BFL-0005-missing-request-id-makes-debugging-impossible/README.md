@@ -20,7 +20,7 @@ The system has logs, but it does not have correlation. In production, that means
 - Technologies: `python`, `fastapi`, `pytest`
 - Failure modes: `missing-observability`
 - Patterns: `request-id`, `structured-logging`
-- Status: `draft`
+- Status: `released`
 
 ## Problem
 

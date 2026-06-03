@@ -20,7 +20,7 @@ This case teaches the lost update failure: transactions exist, but the code stil
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `lost-update`, `race-condition`
 - Patterns: `transaction-boundary`, `select-for-update`
-- Status: `draft`
+- Status: `released`
 
 ## Problem
 

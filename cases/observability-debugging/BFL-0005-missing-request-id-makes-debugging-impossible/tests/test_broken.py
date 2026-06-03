@@ -2,7 +2,8 @@ import logging
 from pathlib import Path
 import sys
 
-from fastapi.testclient import TestClient
+import httpx
+import pytest
 
 CASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(CASE_DIR))
@@ -10,13 +11,18 @@ sys.path.insert(0, str(CASE_DIR))
 from broken.app import create_app  # noqa: E402
 
 
-def test_response_and_logs_include_request_id(caplog) -> None:
+@pytest.mark.asyncio
+async def test_response_and_logs_include_request_id(caplog) -> None:
     app = create_app()
-    client = TestClient(app)
+    transport = httpx.ASGITransport(app=app)
     request_id = "abc-123"
 
-    with caplog.at_level(logging.ERROR, logger="bfl_0005.broken"):
-        response = client.post("/orders/100/pay", headers={"X-Request-ID": request_id})
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        with caplog.at_level(logging.ERROR, logger="bfl_0005.broken"):
+            response = await client.post(
+                "/orders/100/pay",
+                headers={"X-Request-ID": request_id},
+            )
 
     log_messages = [record.getMessage() for record in caplog.records]
 

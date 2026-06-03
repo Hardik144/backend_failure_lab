@@ -20,7 +20,7 @@
 - Technologies: `python`, `fastapi`, `pytest`
 - Failure modes: `missing-observability`
 - Patterns: `request-id`, `structured-logging`
-- Status: `draft`
+- Status: `released`
 
 ## Проблема
 

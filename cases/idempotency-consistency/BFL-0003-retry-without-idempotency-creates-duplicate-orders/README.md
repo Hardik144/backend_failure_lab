@@ -20,7 +20,7 @@ The bug is not in the JSON response or validation. The bug is that the backend t
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `duplicate-processing`
 - Patterns: `idempotency-key`
-- Status: `draft`
+- Status: `released`
 
 ## Problem
 

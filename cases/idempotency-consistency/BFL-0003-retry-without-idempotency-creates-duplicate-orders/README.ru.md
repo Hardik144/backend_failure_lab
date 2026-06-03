@@ -20,7 +20,7 @@
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `duplicate-processing`
 - Patterns: `idempotency-key`
-- Status: `draft`
+- Status: `released`
 
 ## Проблема
 

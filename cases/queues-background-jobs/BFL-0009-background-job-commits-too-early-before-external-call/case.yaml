@@ -1,0 +1,34 @@
+id: BFL-0009
+title: Background Job Commits Too Early Before External Call
+slug: background-job-commits-too-early-before-external-call
+
+primary_category: queues-background-jobs
+
+secondary_categories:
+  - reliability-failure-recovery
+  - database-transactions
+
+level: middle
+
+technologies:
+  - python
+  - fastapi
+  - postgresql
+  - sqlalchemy
+  - pytest
+
+failure_modes:
+  - partial-failure
+
+patterns:
+  - outbox-pattern
+  - transaction-boundary
+
+audience:
+  - middle-backend
+  - production-reliability
+
+status: draft
+
+created_at: 2026-06-03
+updated_at: 2026-06-03

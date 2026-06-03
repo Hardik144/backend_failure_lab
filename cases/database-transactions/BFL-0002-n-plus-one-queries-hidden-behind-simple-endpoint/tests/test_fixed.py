@@ -3,8 +3,8 @@ from contextlib import contextmanager
 from pathlib import Path
 import sys
 
+import httpx
 import pytest
-from fastapi.testclient import TestClient
 from sqlalchemy import event
 
 CASE_DIR = Path(__file__).resolve().parents[1]
@@ -37,7 +37,7 @@ def count_select_queries(engine) -> Iterator[list[str]]:
 
 
 @pytest.fixture
-def client(tmp_path) -> TestClient:
+def app(tmp_path):
     database_url = f"sqlite:///{tmp_path / 'fixed.db'}"
     app = create_app(database_url=database_url)
 
@@ -54,11 +54,15 @@ def client(tmp_path) -> TestClient:
             )
         session.commit()
 
-    return TestClient(app)
+    return app
 
 
-def test_endpoint_returns_users_with_orders(client: TestClient) -> None:
-    response = client.get("/users-with-orders")
+@pytest.mark.asyncio
+async def test_endpoint_returns_users_with_orders(app) -> None:
+    transport = httpx.ASGITransport(app=app)
+
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        response = await client.get("/users-with-orders")
 
     assert response.status_code == 200
     assert response.json()[0] == {
@@ -74,9 +78,13 @@ def test_endpoint_returns_users_with_orders(client: TestClient) -> None:
     }
 
 
-def test_endpoint_uses_bounded_number_of_select_queries(client: TestClient) -> None:
-    with count_select_queries(client.app.state.engine) as statements:
-        response = client.get("/users-with-orders")
+@pytest.mark.asyncio
+async def test_endpoint_uses_bounded_number_of_select_queries(app) -> None:
+    transport = httpx.ASGITransport(app=app)
+
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        with count_select_queries(app.state.engine) as statements:
+            response = await client.get("/users-with-orders")
 
     assert response.status_code == 200
     assert len(response.json()) == 5

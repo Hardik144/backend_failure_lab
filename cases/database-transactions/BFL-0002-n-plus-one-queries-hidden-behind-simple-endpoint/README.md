@@ -20,7 +20,7 @@ The response looks correct on small data. The failure is hidden in the number of
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `slow-query`
 - Patterns: `eager-loading`
-- Status: `draft`
+- Status: `released`
 
 ## Problem
 

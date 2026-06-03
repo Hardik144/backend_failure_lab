@@ -20,7 +20,7 @@
 - Technologies: `python`, `fastapi`, `postgresql`, `sqlalchemy`, `pytest`
 - Failure modes: `slow-query`
 - Patterns: `eager-loading`
-- Status: `draft`
+- Status: `released`
 
 ## Проблема
 

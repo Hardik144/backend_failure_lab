@@ -1,8 +1,8 @@
 from pathlib import Path
 import sys
 
+import httpx
 import pytest
-from fastapi.testclient import TestClient
 
 CASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(CASE_DIR))
@@ -20,11 +20,6 @@ def app(tmp_path):
         session.add(Account(id=1, balance_cents=10000))
         session.commit()
     return app
-
-
-@pytest.fixture
-def client(app) -> TestClient:
-    return TestClient(app)
 
 
 def test_two_overlapping_withdrawals_apply_both_updates(app) -> None:
@@ -49,8 +44,12 @@ def test_two_overlapping_withdrawals_apply_both_updates(app) -> None:
     assert final_balance == 5000
 
 
-def test_withdraw_endpoint_returns_updated_balance(client: TestClient) -> None:
-    response = client.post("/accounts/1/withdraw", json={"amount_cents": 3000})
+@pytest.mark.asyncio
+async def test_withdraw_endpoint_returns_updated_balance(app) -> None:
+    transport = httpx.ASGITransport(app=app)
+
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        response = await client.post("/accounts/1/withdraw", json={"amount_cents": 3000})
 
     assert response.status_code == 200
     assert response.json() == {"id": 1, "balance_cents": 7000}

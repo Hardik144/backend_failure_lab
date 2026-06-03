@@ -3,7 +3,8 @@ from contextlib import contextmanager
 from pathlib import Path
 import sys
 
-from fastapi.testclient import TestClient
+import httpx
+import pytest
 from sqlalchemy import event
 
 CASE_DIR = Path(__file__).resolve().parents[1]
@@ -50,14 +51,16 @@ def seed_data(session_factory) -> None:
         session.commit()
 
 
-def test_endpoint_does_not_use_n_plus_one_queries(tmp_path) -> None:
+@pytest.mark.asyncio
+async def test_endpoint_does_not_use_n_plus_one_queries(tmp_path) -> None:
     database_url = f"sqlite:///{tmp_path / 'broken.db'}"
     app = create_app(database_url=database_url)
     seed_data(app.state.SessionLocal)
+    transport = httpx.ASGITransport(app=app)
 
-    client = TestClient(app)
-    with count_select_queries(app.state.engine) as statements:
-        response = client.get("/users-with-orders")
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        with count_select_queries(app.state.engine) as statements:
+            response = await client.get("/users-with-orders")
 
     assert response.status_code == 200
     assert len(response.json()) == 5

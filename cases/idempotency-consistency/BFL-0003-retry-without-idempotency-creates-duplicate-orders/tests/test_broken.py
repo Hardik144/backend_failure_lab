@@ -1,7 +1,8 @@
 from pathlib import Path
 import sys
 
-from fastapi.testclient import TestClient
+import httpx
+import pytest
 
 CASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(CASE_DIR))
@@ -18,13 +19,15 @@ PAYLOAD = {
 HEADERS = {"Idempotency-Key": "same-command"}
 
 
-def test_retry_with_same_idempotency_key_does_not_create_duplicate_order(tmp_path) -> None:
+@pytest.mark.asyncio
+async def test_retry_with_same_idempotency_key_does_not_create_duplicate_order(tmp_path) -> None:
     database_url = f"sqlite:///{tmp_path / 'broken.db'}"
     app = create_app(database_url=database_url)
-    client = TestClient(app)
+    transport = httpx.ASGITransport(app=app)
 
-    first_response = client.post("/orders", json=PAYLOAD, headers=HEADERS)
-    second_response = client.post("/orders", json=PAYLOAD, headers=HEADERS)
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        first_response = await client.post("/orders", json=PAYLOAD, headers=HEADERS)
+        second_response = await client.post("/orders", json=PAYLOAD, headers=HEADERS)
 
     with app.state.SessionLocal() as session:
         total_orders = count_orders(session)
