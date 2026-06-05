@@ -20,3 +20,8 @@ CASE_TEST_STANDARD.local.md
 # Local strategy docs and context (never push to GitHub)
 _strategy/
 CLAUDE.md
+
+# Claude Code local config (never push to GitHub)
+.claude/
+CLAUDE.local.md
+REVIEW.md
