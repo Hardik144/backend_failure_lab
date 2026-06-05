@@ -5,8 +5,8 @@ from uuid import uuid4
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse, Response
 
-from .repository import create_payment_attempt
-from .schemas import PaymentResponse
+from repository import create_payment_attempt
+from schemas import PaymentResponse
 
 
 logger = logging.getLogger("bfl_0005.fixed")

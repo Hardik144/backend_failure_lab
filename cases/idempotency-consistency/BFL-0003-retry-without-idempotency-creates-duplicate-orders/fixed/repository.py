@@ -1,8 +1,8 @@
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from .models import Order
-from .schemas import OrderCreate
+from models import Order
+from schemas import OrderCreate
 
 
 def get_order_by_idempotency_key(session: Session, idempotency_key: str) -> Order | None:

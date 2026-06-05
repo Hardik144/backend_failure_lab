@@ -1,20 +1,13 @@
 import asyncio
-from pathlib import Path
-import sys
 import time
 
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-
+from app import create_app
 
 REQUEST_COUNT = 3
 MAX_EXPECTED_SECONDS = 0.16
-
 
 @pytest.mark.asyncio
 async def test_concurrent_requests_do_not_block_each_other() -> None:

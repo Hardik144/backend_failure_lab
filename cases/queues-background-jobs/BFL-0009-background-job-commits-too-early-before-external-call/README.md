@@ -5,9 +5,9 @@
 
 # Background Job Commits Too Early Before External Call
 
-A background-style operation marks an order as confirmed before the external notification succeeds.
+A FastAPI background task marks an order as confirmed before the external notification succeeds.
 
-This case teaches a partial failure: local database state says the work is done, but the external side effect failed.
+This case teaches a partial failure: the API returns 202 immediately, but the background job leaves the database in ghost state when the external side effect fails.
 
 ## Metadata
 
@@ -35,11 +35,11 @@ The dangerous part is that retrying the job later now starts from misleading sta
 ## Broken Scenario
 
 1. Order `100` is pending.
-2. The backend starts confirmation.
-3. The backend commits `status = confirmed`.
+2. `POST /orders/100/confirm` arrives — the endpoint returns `202` immediately and schedules a background task.
+3. The background task commits `status = confirmed`.
 4. The notification service fails.
-5. The endpoint returns `503`.
-6. The order still stays confirmed in the database.
+5. The background task silently swallows the error (fire-and-forget).
+6. The order stays confirmed in the database even though the notification was never sent.
 
 ## Broken Implementation
 
@@ -65,9 +65,9 @@ The important assertion is not only the HTTP status. The important assertion is 
 
 ## Failing Test
 
-`tests/test_broken.py` expects the order to stay pending when the external notification fails.
+`tests/test_broken.py` expects the order to stay `pending` when the external notification fails.
 
-The broken implementation returns `503`, but the stored order becomes `confirmed`, so the test fails.
+The endpoint correctly returns `202`, but the background task has already committed `status = confirmed` before the notification failed — so the stored order is `confirmed` instead of `pending`, and the test fails.
 
 ## Diagnosis
 

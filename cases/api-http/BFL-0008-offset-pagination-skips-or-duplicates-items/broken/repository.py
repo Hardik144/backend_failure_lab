@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import Order
+from models import Order
 
 
 def seed_orders(session: Session, order_ids: list[int]) -> None:

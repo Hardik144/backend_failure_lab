@@ -1,4 +1,4 @@
-from .models import ExportJob
+from models import ExportJob
 
 
 class ExportTimeoutError(Exception):

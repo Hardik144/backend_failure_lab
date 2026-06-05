@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
-from .models import User
+from models import User
 
 
 def get_users_with_orders(session: Session) -> list[User]:

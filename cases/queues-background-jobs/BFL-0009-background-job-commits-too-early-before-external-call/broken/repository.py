@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from .models import Order
+from models import Order
 
 
 class NotificationServiceError(Exception):

@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import Order
+from models import Order
 
 
 def get_order_by_id(session: Session, order_id: int) -> Order | None:

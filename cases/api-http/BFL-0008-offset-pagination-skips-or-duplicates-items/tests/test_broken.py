@@ -1,27 +1,18 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.database import SessionLocal, reset_database  # noqa: E402
-from broken.repository import insert_order, seed_orders  # noqa: E402
-
+from app import create_app
+from database import SessionLocal, reset_database
+from repository import insert_order, seed_orders
 
 def prepare_state() -> None:
     reset_database()
     with SessionLocal() as session:
         seed_orders(session, [1, 2, 3, 4, 5])
 
-
 def add_newest_order() -> None:
     with SessionLocal() as session:
         insert_order(session, 6)
-
 
 @pytest.mark.asyncio
 async def test_offset_pagination_does_not_duplicate_items_after_insert() -> None:

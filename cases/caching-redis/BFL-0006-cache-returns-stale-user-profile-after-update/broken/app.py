@@ -1,9 +1,9 @@
 from fastapi import Depends, FastAPI, Header, HTTPException, status
 from sqlalchemy.orm import Session
 
-from .database import get_session
-from .repository import get_profile, get_redis_client, update_profile_name
-from .schemas import ProfileResponse, ProfileUpdate
+from database import get_session
+from repository import get_profile, get_redis_client, update_profile_name
+from schemas import ProfileResponse, ProfileUpdate
 
 
 def get_current_user_id(x_user_id: str | None = Header(default=None, alias="X-User-Id")) -> int:

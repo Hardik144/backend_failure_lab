@@ -1,18 +1,12 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
-from pathlib import Path
-import sys
 
 import httpx
 import pytest
 from sqlalchemy import event
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.models import Order, User  # noqa: E402
-
+from app import create_app
+from models import Order, User
 
 @contextmanager
 def count_select_queries(engine) -> Iterator[list[str]]:
@@ -35,7 +29,6 @@ def count_select_queries(engine) -> Iterator[list[str]]:
     finally:
         event.remove(engine, "before_cursor_execute", before_cursor_execute)
 
-
 def seed_data(session_factory) -> None:
     with session_factory() as session:
         for user_id in range(1, 6):
@@ -49,7 +42,6 @@ def seed_data(session_factory) -> None:
                 )
             )
         session.commit()
-
 
 @pytest.mark.asyncio
 async def test_endpoint_does_not_use_n_plus_one_queries(tmp_path) -> None:

@@ -1,4 +1,4 @@
-from .models import OperationResult
+from models import OperationResult
 
 
 WORK_SECONDS = 0.08

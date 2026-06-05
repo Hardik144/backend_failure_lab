@@ -1,18 +1,14 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.models import Order  # noqa: E402
-
+from app import create_app
+from models import Order
 
 @pytest.mark.asyncio
-async def test_failed_external_call_does_not_confirm_order(tmp_path) -> None:
+async def test_failed_notification_leaves_order_in_ghost_confirmed_state(tmp_path) -> None:
+    # Endpoint returns 202 immediately (fire-and-forget).
+    # Bug: broken/ commits status="confirmed" before calling the notification service.
+    # When notification fails the DB already has a confirmed order — ghost state.
     database_url = f"sqlite:///{tmp_path / 'broken.db'}"
     app = create_app(database_url=database_url)
     with app.state.SessionLocal() as session:
@@ -24,7 +20,9 @@ async def test_failed_external_call_does_not_confirm_order(tmp_path) -> None:
         response = await client.post("/orders/100/confirm?fail_notification=true")
         stored = await client.get("/orders/100")
 
-    assert response.status_code == 503
+    assert response.status_code == 202
+    # Expected: order stays pending because notification failed.
+    # Actual in broken/: order is "confirmed" even though notification was never sent.
     assert stored.json() == {
         "id": 100,
         "status": "pending",

@@ -1,15 +1,8 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-from fixed.repository import count_orders  # noqa: E402
-
+from app import create_app
+from repository import count_orders
 
 PAYLOAD = {
     "user_id": 1,
@@ -18,12 +11,10 @@ PAYLOAD = {
 }
 HEADERS = {"Idempotency-Key": "same-command"}
 
-
 @pytest.fixture
 def app(tmp_path):
     database_url = f"sqlite:///{tmp_path / 'fixed.db'}"
     return create_app(database_url=database_url)
-
 
 @pytest.mark.asyncio
 async def test_retry_with_same_idempotency_key_returns_existing_order(app) -> None:
@@ -40,7 +31,6 @@ async def test_retry_with_same_idempotency_key_returns_existing_order(app) -> No
     assert second_response.status_code == 201
     assert second_response.json() == first_response.json()
     assert total_orders == 1
-
 
 @pytest.mark.asyncio
 async def test_missing_idempotency_key_returns_400(app) -> None:

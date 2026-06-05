@@ -1,15 +1,8 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-from fixed.models import Order, User  # noqa: E402
-
+from app import create_app
+from models import Order, User
 
 @pytest.fixture
 def app(tmp_path):
@@ -28,7 +21,6 @@ def app(tmp_path):
 
     return app
 
-
 @pytest.mark.asyncio
 async def test_user_cannot_read_another_users_order(app) -> None:
     transport = httpx.ASGITransport(app=app)
@@ -37,7 +29,6 @@ async def test_user_cannot_read_another_users_order(app) -> None:
         response = await client.get("/orders/100", headers={"X-User-Id": "2"})
 
     assert response.status_code == 404
-
 
 @pytest.mark.asyncio
 async def test_user_can_read_own_order(app) -> None:
@@ -53,7 +44,6 @@ async def test_user_can_read_own_order(app) -> None:
         "item_name": "Mechanical keyboard",
         "total_cents": 12900,
     }
-
 
 @pytest.mark.asyncio
 async def test_missing_user_header_returns_401(app) -> None:

@@ -1,14 +1,7 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-
+from app import create_app
 
 @pytest.mark.asyncio
 async def test_timed_out_request_does_not_complete_work() -> None:
@@ -25,7 +18,6 @@ async def test_timed_out_request_does_not_complete_work() -> None:
         "status": "cancelled",
         "result": None,
     }
-
 
 @pytest.mark.asyncio
 async def test_successful_request_completes_work() -> None:

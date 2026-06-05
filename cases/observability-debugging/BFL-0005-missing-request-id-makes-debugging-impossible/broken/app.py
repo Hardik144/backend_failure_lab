@@ -3,8 +3,8 @@ import logging
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 
-from .repository import create_payment_attempt
-from .schemas import PaymentResponse
+from repository import create_payment_attempt
+from schemas import PaymentResponse
 
 
 logger = logging.getLogger("bfl_0005.broken")

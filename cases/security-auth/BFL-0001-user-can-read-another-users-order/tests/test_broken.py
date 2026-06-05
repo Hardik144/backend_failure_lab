@@ -1,15 +1,8 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.models import Order, User  # noqa: E402
-
+from app import create_app
+from models import Order, User
 
 def seed_data(session_factory) -> None:
     with session_factory() as session:
@@ -21,7 +14,6 @@ def seed_data(session_factory) -> None:
             ]
         )
         session.commit()
-
 
 @pytest.mark.asyncio
 async def test_user_cannot_read_another_users_order(tmp_path) -> None:

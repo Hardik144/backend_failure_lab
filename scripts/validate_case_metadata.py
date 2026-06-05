@@ -24,6 +24,14 @@ REQUIRED_FIELDS = {
     "updated_at",
 }
 
+VALID_STATUSES = {"released", "draft", "archived"}
+
+RELEASED_REQUIRED_DIRS = ["broken", "fixed", "tests"]
+RELEASED_REQUIRED_FILES = [
+    "tests/test_broken.py",
+    "tests/test_behavior.py",
+]
+
 
 def load_yaml(path: Path) -> dict[str, Any] | None:
     try:
@@ -44,6 +52,7 @@ def validate_file(path: Path) -> list[str]:
     if data is None:
         return ["invalid metadata file"]
 
+    case_dir = path.parent
     errors: list[str] = []
     missing = sorted(REQUIRED_FIELDS - data.keys())
     if missing:
@@ -52,6 +61,20 @@ def validate_file(path: Path) -> list[str]:
     for field in ("technologies", "failure_modes", "patterns"):
         if field in data and not isinstance(data[field], list):
             errors.append(f"{field} must be a list")
+
+    status = data.get("status")
+    if status is not None and status not in VALID_STATUSES:
+        errors.append(
+            f"status must be one of {sorted(VALID_STATUSES)}, got: {status!r}"
+        )
+
+    if status == "released":
+        for dirname in RELEASED_REQUIRED_DIRS:
+            if not (case_dir / dirname).is_dir():
+                errors.append(f"released case missing directory: {dirname}/")
+        for filename in RELEASED_REQUIRED_FILES:
+            if not (case_dir / filename).is_file():
+                errors.append(f"released case missing file: {filename}")
 
     return errors
 

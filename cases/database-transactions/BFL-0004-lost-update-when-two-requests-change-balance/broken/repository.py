@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import Account
+from models import Account
 
 
 def get_account(session: Session, account_id: int) -> Account | None:

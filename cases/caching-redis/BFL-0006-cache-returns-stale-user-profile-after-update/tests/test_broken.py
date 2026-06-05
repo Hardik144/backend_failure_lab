@@ -1,16 +1,9 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.database import SessionLocal, reset_database  # noqa: E402
-from broken.repository import get_redis_client, profile_cache_key, seed_profile  # noqa: E402
-
+from app import create_app
+from database import SessionLocal, reset_database
+from repository import get_redis_client, profile_cache_key, seed_profile
 
 def prepare_state() -> None:
     reset_database()
@@ -19,7 +12,6 @@ def prepare_state() -> None:
 
     with SessionLocal() as session:
         seed_profile(session, user_id=1, name="Old Name")
-
 
 @pytest.mark.asyncio
 async def test_profile_update_invalidates_cached_value() -> None:

@@ -1,15 +1,8 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.repository import count_orders  # noqa: E402
-
+from app import create_app
+from repository import count_orders
 
 PAYLOAD = {
     "user_id": 1,
@@ -17,7 +10,6 @@ PAYLOAD = {
     "total_cents": 19900,
 }
 HEADERS = {"Idempotency-Key": "same-command"}
-
 
 @pytest.mark.asyncio
 async def test_retry_with_same_idempotency_key_does_not_create_duplicate_order(tmp_path) -> None:

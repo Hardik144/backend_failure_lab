@@ -1,19 +1,11 @@
-from pathlib import Path
-import sys
-
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.models import Account  # noqa: E402
-from broken.repository import get_account, get_balance, write_balance  # noqa: E402
-
+from app import create_app
+from models import Account
+from repository import get_account, get_balance, write_balance
 
 def seed_account(session_factory) -> None:
     with session_factory() as session:
         session.add(Account(id=1, balance_cents=10000))
         session.commit()
-
 
 def test_two_overlapping_withdrawals_do_not_lose_update(tmp_path) -> None:
     database_url = f"sqlite:///{tmp_path / 'broken.db'}"

@@ -8,7 +8,7 @@ from redis import Redis
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import UserProfile
+from models import UserProfile
 
 
 CACHE_TTL_SECONDS = 300

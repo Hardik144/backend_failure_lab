@@ -2,8 +2,8 @@ import asyncio
 
 from fastapi import FastAPI
 
-from .repository import WORK_SECONDS, build_operation_result
-from .schemas import OperationResponse
+from repository import WORK_SECONDS, build_operation_result
+from schemas import OperationResponse
 
 
 def create_app() -> FastAPI:

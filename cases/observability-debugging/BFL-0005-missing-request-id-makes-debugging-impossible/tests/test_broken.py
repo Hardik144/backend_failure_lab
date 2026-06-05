@@ -1,15 +1,9 @@
 import logging
-from pathlib import Path
-import sys
 
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-
+from app import create_app
 
 @pytest.mark.asyncio
 async def test_response_and_logs_include_request_id(caplog) -> None:

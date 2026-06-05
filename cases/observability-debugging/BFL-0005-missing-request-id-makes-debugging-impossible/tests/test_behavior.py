@@ -1,16 +1,10 @@
 import json
 import logging
-from pathlib import Path
-import sys
 
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-
+from app import create_app
 
 @pytest.mark.asyncio
 async def test_response_and_logs_include_same_request_id(caplog) -> None:
@@ -37,7 +31,6 @@ async def test_response_and_logs_include_same_request_id(caplog) -> None:
     assert all(event["request_id"] == request_id for event in events)
     assert all(event["user_id"] == 42 for event in events)
     assert all(event["order_id"] == 100 for event in events)
-
 
 @pytest.mark.asyncio
 async def test_missing_request_id_is_generated_and_logged(caplog) -> None:

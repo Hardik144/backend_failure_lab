@@ -3,10 +3,10 @@ from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-from .database import create_session_factory, init_database
-from . import models  # noqa: F401 - imports models so metadata contains tables
-from .repository import DuplicateEmailError, create_user
-from .schemas import UserCreate, UserResponse
+from database import create_session_factory, init_database
+import models  # noqa: F401 - imports models so metadata contains tables
+from repository import DuplicateEmailError, create_user
+from schemas import UserCreate, UserResponse
 
 
 DEFAULT_DATABASE_URL = "sqlite:///./bfl_0010.db"

@@ -1,9 +1,9 @@
 from fastapi import Depends, FastAPI, Query
 from sqlalchemy.orm import Session
 
-from .database import get_session
-from .repository import list_orders
-from .schemas import OrderListResponse, OrderResponse
+from database import get_session
+from repository import list_orders
+from schemas import OrderListResponse, OrderResponse
 
 
 def create_app() -> FastAPI:

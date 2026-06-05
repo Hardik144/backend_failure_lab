@@ -66,8 +66,9 @@ Do not invent category-specific IDs such as `SA-0001`, `PS-0001`, or `DB-0001`. 
 Each case must include:
 
 - a `case.yaml` file with a unique global `BFL-XXXX` ID;
-- `tests/test_broken.py`;
-- `tests/test_fixed.py`.
+- `tests/test_broken.py` — proves the bug exists, must fail on `broken/`;
+- `tests/test_behavior.py` — proves safe behavior, must pass on `fixed/`;
+- `tests/conftest.py` — wires up the `BFL_IMPL` path injection (copy from `templates/case-template/tests/`).
 
 Run cases through Docker from the repository root:
 

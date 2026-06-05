@@ -1,16 +1,9 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-from fixed.models import Account  # noqa: E402
-from fixed.repository import get_account, get_balance, withdraw  # noqa: E402
-
+from app import create_app
+from models import Account
+from repository import get_account, get_balance, withdraw
 
 @pytest.fixture
 def app(tmp_path):
@@ -20,7 +13,6 @@ def app(tmp_path):
         session.add(Account(id=1, balance_cents=10000))
         session.commit()
     return app
-
 
 def test_two_overlapping_withdrawals_apply_both_updates(app) -> None:
     session_a = app.state.SessionLocal()
@@ -42,7 +34,6 @@ def test_two_overlapping_withdrawals_apply_both_updates(app) -> None:
         final_balance = get_balance(session=session, account_id=1)
 
     assert final_balance == 5000
-
 
 @pytest.mark.asyncio
 async def test_withdraw_endpoint_returns_updated_balance(app) -> None:

@@ -1,8 +1,8 @@
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from .models import Order
-from .schemas import OrderCreate
+from models import Order
+from schemas import OrderCreate
 
 
 def create_order(session: Session, payload: OrderCreate, idempotency_key: str) -> Order:

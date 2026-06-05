@@ -1,16 +1,9 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-from fixed.database import SessionLocal, reset_database  # noqa: E402
-from fixed.repository import get_redis_client, profile_cache_key, seed_profile  # noqa: E402
-
+from app import create_app
+from database import SessionLocal, reset_database
+from repository import get_redis_client, profile_cache_key, seed_profile
 
 def prepare_state() -> None:
     reset_database()
@@ -19,7 +12,6 @@ def prepare_state() -> None:
 
     with SessionLocal() as session:
         seed_profile(session, user_id=1, name="Old Name")
-
 
 @pytest.mark.asyncio
 async def test_profile_update_invalidates_cached_value() -> None:
@@ -42,7 +34,6 @@ async def test_profile_update_invalidates_cached_value() -> None:
     assert update_response.json()["name"] == "Jhon"
     assert second_response.status_code == 200
     assert second_response.json()["name"] == "Jhon"
-
 
 @pytest.mark.asyncio
 async def test_missing_user_header_returns_401() -> None:

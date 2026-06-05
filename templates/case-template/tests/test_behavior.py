@@ -1,14 +1,9 @@
-from pathlib import Path
-import sys
-
 import pytest
 from fastapi.testclient import TestClient
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
 
-from fixed.app import create_app  # noqa: E402
-from fixed.models import ...  # noqa: E402
+from app import create_app
+from models import ...
 
 
 @pytest.fixture

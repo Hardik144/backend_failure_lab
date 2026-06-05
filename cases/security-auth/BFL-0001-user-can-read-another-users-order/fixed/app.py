@@ -3,10 +3,10 @@ from typing import Annotated
 from fastapi import Depends, FastAPI, Header, HTTPException, status
 from sqlalchemy.orm import Session
 
-from .database import create_session_factory, init_database
-from . import models  # noqa: F401 - imports models so metadata contains tables
-from .repository import get_order_for_user
-from .schemas import OrderResponse
+from database import create_session_factory, init_database
+import models  # noqa: F401 - imports models so metadata contains tables
+from repository import get_order_for_user
+from schemas import OrderResponse
 
 
 DEFAULT_DATABASE_URL = "sqlite:///./bfl_0001_fixed.db"

@@ -1,16 +1,9 @@
-from pathlib import Path
-import sys
-
 import httpx
 import pytest
 from sqlalchemy.exc import IntegrityError
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from fixed.app import create_app  # noqa: E402
-from fixed.repository import email_exists, insert_user_after_precheck  # noqa: E402
-
+from app import create_app
+from repository import email_exists, insert_user_after_precheck
 
 def test_database_rejects_duplicate_email_even_when_two_requests_pass_precheck(tmp_path) -> None:
     database_url = f"sqlite:///{tmp_path / 'fixed.db'}"
@@ -32,7 +25,6 @@ def test_database_rejects_duplicate_email_even_when_two_requests_pass_precheck(t
     finally:
         session_a.close()
         session_b.close()
-
 
 @pytest.mark.asyncio
 async def test_endpoint_rejects_duplicate_email(tmp_path) -> None:

@@ -1,4 +1,4 @@
-from .models import PaymentAttempt
+from models import PaymentAttempt
 
 
 def create_payment_attempt(user_id: int, order_id: int) -> PaymentAttempt:

@@ -1,15 +1,8 @@
-from pathlib import Path
-import sys
-
 import pytest
 from sqlalchemy.exc import IntegrityError
 
-CASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CASE_DIR))
-
-from broken.app import create_app  # noqa: E402
-from broken.repository import email_exists, insert_user_after_precheck  # noqa: E402
-
+from app import create_app
+from repository import email_exists, insert_user_after_precheck
 
 def test_database_rejects_duplicate_email_even_when_two_requests_pass_precheck(tmp_path) -> None:
     database_url = f"sqlite:///{tmp_path / 'broken.db'}"
