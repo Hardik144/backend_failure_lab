@@ -35,7 +35,8 @@ body:
         - broken implementation
         - fixed implementation
         - tests/test_broken.py
-        - tests/test_fixed.py
+        - tests/test_behavior.py
+        - tests/conftest.py
     validations:
       required: true
 
